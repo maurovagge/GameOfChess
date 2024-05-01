@@ -77,6 +77,7 @@ void AGameManager::RestartGame()
 	ABoard* Board = ABoard::GlobalBoardInstance;
 	Board->ResetBoard();
 	SetupPieces();
+	CurrentPlayer = HumanPlayer;
 	GeneralMessage = FString::Printf(TEXT("Click on a piece"), AIScore);
 	bGameEnded = false;
 }
@@ -176,6 +177,13 @@ bool AGameManager::CheckWinConditions()
 			EndGame(HumanPlayer);
 			return true;
 		}
+		if (ABoard::GlobalBoardManager->IsStaleMate(ABoard::GlobalBoardManager->GetCurrentBoard(), ETeam::Black))
+		{
+			GeneralMessage = _T("StaleMate! NO WINNER!");
+
+			EndGame(HumanPlayer);
+			return true;
+		}
 	}
 	if (HumanPlayer)
 	{
@@ -183,8 +191,14 @@ bool AGameManager::CheckWinConditions()
 		{
 			// Human player is in checkmate, so AI player wins
 			AIScore++;
-
 			GeneralMessage = _T("CheckMate! BLACK WINS!");
+
+			EndGame(AIPlayer);
+			return true;
+		}
+		if (ABoard::GlobalBoardManager->IsStaleMate(ABoard::GlobalBoardManager->GetCurrentBoard(), ETeam::White))
+		{
+			GeneralMessage = _T("StaleMate! NO WINNER!");
 
 			EndGame(AIPlayer);
 			return true;
@@ -198,6 +212,8 @@ bool AGameManager::CheckWinConditions()
 void AGameManager::EndGame(AGoC_Player* WinningPlayer)
 {
 	ABoard::GlobalBoardInstance->HighlightTiles(ABoard::GlobalBoardInstance->GetAllTiles(), true, 0);
+	bGameEnded = false;
+
 }
 
 //Game start here
