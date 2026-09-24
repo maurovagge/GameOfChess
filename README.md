@@ -145,7 +145,3 @@ Move-history playback is intended for reviewing the game state. Normal play is d
 For editor development, opening the `.uproject` file and using Unreal Engine's standard **Build** and **Play** commands is sufficient.
 
 To create a distributable build, use Unreal Editor's **Platforms** menu and select the target desktop platform. Ensure that the C++ module compiles successfully before packaging. Platform-specific settings are stored under `Config` and `Platforms`.
-
-## License
-
-No license file is currently included in this repository. Add a license before distributing or reusing the project if required.
